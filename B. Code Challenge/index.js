@@ -5,6 +5,7 @@ const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
 let shuffledQuestions, currentQuestionIndex
+let correctCount = 0
 
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
@@ -16,6 +17,7 @@ function startGame() {
   startButton.classList.add('hide')
   shuffledQuestions = questions.sort(() => Math.random() - .5)
   currentQuestionIndex = 0
+  correctCount = 0
   questionContainerElement.classList.remove('hide')
   setNextQuestion()
 }
@@ -50,6 +52,9 @@ function resetState() {
 function selectAnswer(e) {
   const selectedButton = e.target
   const correct = selectedButton.dataset.correct
+  if (correct){
+      correctCount++
+  }
   setStatusClass(document.body, correct)
   Array.from(answerButtonsElement.children).forEach(button => {
     setStatusClass(button, button.dataset.correct)
@@ -59,6 +64,7 @@ function selectAnswer(e) {
   } else {
     startButton.innerText = 'Restart'
     startButton.classList.remove('hide')
+    alert(`Your points is ${correctCount}`)
   }
 }
 
@@ -129,4 +135,3 @@ let questions = [
         ]
     }
 ]
-
